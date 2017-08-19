@@ -2,9 +2,7 @@
 
 This issue tracker is only for technical issues related to diverscoin-core.
 
-General diverscoin questions and/or support requests and are best directed to the [diverscointalk.io forums](https://diverscointalk.io/).
-
-For reporting security issues, please contact the Diverscoin developers on the #diverscoin-dev Freenode IRC channel or alternatively you can email us at contact@diverscoin.org.
+For reporting security issues, please post an issue and contact the Diverscoin developers through email at contact@diverscoin.org.
 
 ### Describe the issue
 
