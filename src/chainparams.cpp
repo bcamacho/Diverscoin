@@ -193,10 +193,10 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 840000;
-        consensus.BIP34Height = 76;
-        consensus.BIP34Hash = uint256S("8075c771ed8b495ffd943980a95f702ab34fce3c8c54e379548bda33cc8c0573");
-        consensus.BIP65Height = 76; // 8075c771ed8b495ffd943980a95f702ab34fce3c8c54e379548bda33cc8c0573
-        consensus.BIP66Height = 76; // 8075c771ed8b495ffd943980a95f702ab34fce3c8c54e379548bda33cc8c0573
+        consensus.BIP34Height = 0;
+        consensus.BIP34Hash = uint256S("0000000000000000000000000000000000000000000000000000000000000000");
+        consensus.BIP65Height = 0;
+        consensus.BIP66Height = 0;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 3.5 * 24 * 60 * 60; // 3.5 days
         consensus.nPowTargetSpacing = 2.5 * 60;
@@ -222,7 +222,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000000000054cb9e7a0");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x43a16a626ef2ffdbe928f2bc26dcd5475c6a1a04f9542dfc6a0a88e5fcf9bd4c"); //8711
+        consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //0
 
         pchMessageStart[0] = 0xfd;
         pchMessageStart[1] = 0xd2;
@@ -231,15 +231,23 @@ public:
         nDefaultPort = 19335;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1486949366, 293345, 0x1e0ffff0, 1, 50 * COIN);
+        // https://bitcoin.org/en/developer-reference
+        // nTime, nNonce, nBits, nVersion, CAmount& genesisReward
+        // nTime 1503120744 =  Friday, August 18, 2017 10:32:24 PM GMT-07:00 DST
+        // nOunce is reset for a new chain
+        // nBits is the difficulty level -> previous value 0x1e0ffff0
+
+        genesis = CreateGenesisBlock(1503120744, 0, 0x1e0ffff0, 1, 50 * COIN);
+
         //  print genesis hash which will write to the ~/.Diverscoin/debug.log
-        printf("Testnet genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-        printf("Testnet consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("Testnet genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("Testnet genesis hash = %s\n", genesis.GetHash().ToString().c_str());
+        printf("Testnet hash Genesis Block = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("Testnet hash Merkle Root = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x4966625a4b2851d9fdee139e56211a0d88575f59ed816ff5e6a63deb4e3e29a0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"));
+        assert(consensus.hashGenesisBlock == uint256S("0x4e58173f061cdfa82865c92ed5d11ee5df7d66a302f34698bf102dc569aa5c4d"));
+        assert(genesis.hashMerkleRoot == uint256S("0x284b64bee4e0c3bec66112b49203e2ca2cd01c9f7d474145501b6894c012dee4"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -320,10 +328,21 @@ public:
         nDefaultPort = 19444;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1296688602, 0, 0x207fffff, 1, 50 * COIN);
+        // https://bitcoin.org/en/developer-reference
+        // nTime, nNonce, nBits, nVersion, CAmount& genesisReward
+        // nTime 1503120744 =  Friday, August 18, 2017 10:32:24 PM GMT-07:00 DST
+        // nOunce is reset for a new chain
+        // nBits is the difficulty level
+
+        genesis = CreateGenesisBlock(1503120744, 0, 0x207fffff, 1, 50 * COIN);
+        //  print genesis hash which will write to the ~/.Diverscoin/debug.log
+        printf("Regression test genesis hash = %s\n", genesis.GetHash().ToString().c_str());
+        printf("Regression test hash Genesis Block = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("Regression test hash Merkle Root = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x530827f38f93b43ed12af0b3ad25a288dc02ed74d6d7857862df51fc56c416f9"));
-        assert(genesis.hashMerkleRoot == uint256S("0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"));
+        assert(consensus.hashGenesisBlock == uint256S("0x6ded3042791c33cf47f6522b8a9df6ead4a8244ea10033c1a2c2adbf03c5ce22"));
+        assert(genesis.hashMerkleRoot == uint256S("0x284b64bee4e0c3bec66112b49203e2ca2cd01c9f7d474145501b6894c012dee4"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
