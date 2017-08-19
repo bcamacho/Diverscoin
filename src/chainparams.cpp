@@ -97,10 +97,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1517356801; // January 31st, 2018
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000006805c7318ce2736c0");
+        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000000000000");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x1673fa904a93848eca83d5ca82c7af974511a7e640e22edc2976420744f2e56a"); //1155631
+        consensus.defaultAssumeValid = uint256S("0000000000000000000000000000000000000000000000000000000000000000");
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -114,16 +114,22 @@ public:
         nDefaultPort = 9333;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1317972665, 2084524493, 0x1e0ffff0, 1, 50 * COIN);
+        // https://bitcoin.org/en/developer-reference
+        // nTime, nNonce, nBits, nVersion, CAmount& genesisReward
+        // nTime 1503120744 =  Friday, August 18, 2017 10:32:24 PM GMT-07:00 DST
+        // nOunce is reset for a new chain
+        // nBits is the difficulty level -> previous value 0x1e0ffff0
+
+        genesis = CreateGenesisBlock(1503120744, 0, 0x1e0ffff0, 1, 50 * COIN);
 
         //  print genesis hash which will write to the ~/.Diverscoin/debug.log
         // printf("nNounce = ", genesis.nNonce.ToString.c_str());
-        printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("1: Genesis Hash = %s\n", genesis.GetHash().ToString().c_str());
+        printf("2: GenesisBlock Hash = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("3: Genesis hash MerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"));
+        assert(consensus.hashGenesisBlock == uint256S("0x4e58173f061cdfa82865c92ed5d11ee5df7d66a302f34698bf102dc569aa5c4d"));
         assert(genesis.hashMerkleRoot == uint256S("0x284b64bee4e0c3bec66112b49203e2ca2cd01c9f7d474145501b6894c012dee4"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
